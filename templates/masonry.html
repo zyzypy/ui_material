@@ -46,8 +46,8 @@
                                    <div class="blog-date title">{{ material['folder'] }}</div>
                                    <p class="blog-excerpt">{{ material.views }} views | {{ material.downloads }} downloads </p>
                                </div>
-                            <a href="{{ url_for('material.detail', folder=material['folder'] )}}"><img src="{{ material.url }}" alt="预览图 主图" /></a>
-                            <a href="{{ url_for('material.detail', folder=material['folder'] )}}" class="read-more btn pull-right">详情</a>
+                            <a href="{{ url_for('app.detail', folder=material['folder'] )}}"><img src="{{ material.url }}" alt="预览图 主图" /></a>
+                            <a href="{{ url_for('app.detail', folder=material['folder'] )}}" class="read-more btn pull-right">详情</a>
                             </div>
                         </div>
                         </article>
@@ -72,11 +72,11 @@
                         <ul class="pagination pagination-lg center-align">
                             {# pageamount=2 rang(2)=[0,1] loop.index会转为[1,2]#}
                             {% for i in  range(pagination['page_amount'])  %}
-                                {% if loop.first %}<li><a href="{{ url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&laquo;</a></li>{% endif %}
+                                {% if loop.first %}<li><a href="{{ url_for('app.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&laquo;</a></li>{% endif %}
                                 <li {%if loop.index==pagination['current_page_number'] %} class="active" {%endif%}>
-                                    <a href="{{  url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])  }}" >{{ loop.index }}</a>
+                                    <a href="{{  url_for('app.masonry', current_page_number=loop.index, category=material_list[0]['category'])  }}" >{{ loop.index }}</a>
                                 </li>
-                                {% if loop.last %}<li><a href="{{url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&raquo;</a></li>{% endif %}
+                                {% if loop.last %}<li><a href="{{url_for('app.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&raquo;</a></li>{% endif %}
                             {% endfor %}
                         </ul>
                     </div>

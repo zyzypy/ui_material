@@ -91,7 +91,7 @@ if __name__ == '__main__':
     for qiniu_item in qiniu_items:
         if qiniu_item['hash'] not in material_items_hash:
             # 处理数据
-            qiniu_key = qiniu_item['key']      # http域名+key才是访问路径
+            key = qiniu_item['key']      # http域名+key才是访问路径
             main_img_flag = True if str(qiniu_item['key']).split('/')[-1].find('预览')!=-1 else False     # str.find()找不到会返回-1
             category = str(qiniu_item['key']).split('/')[0]       # key = button/一个按钮/1.psd
             folder = str(qiniu_item['key']).split('/')[1]
