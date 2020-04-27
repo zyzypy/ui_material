@@ -1,0 +1,27 @@
+
+<head>
+    <!--==========title============-->
+    <title>哇哦设计</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="copyright" content="1owo.com"/>
+    {% block meta_keywords %}
+    <meta name="keywords" content="设计素材,UI,PSD,ps,源文件,下载,免费"/>
+    {% endblock meta_keywords %}
+    <meta name="description" content="素材在精而不在多 高质量国外UI设计素材 手机APP 网页 PSD AI 免费素材 +1s"/>
+    <!-- shortcut -->
+    <link rel="shortcut icon" href="{{ url_for('material.static', filename='img/favicon.ico') }}"/>
+    <!-- css bootstrap v3.3-->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/bootstrap.min.css') }}" type="text/css" />
+    <!-- js插件 animsition动效 FlexSlider pagepackery布局 -->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/plugin.css') }}" type="text/css" />
+    <!-- icons via font-->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/font.css') }}" type="text/css" />
+    <!-- !!custom style -->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/custom_style.css') }}" type="text/css" />
+    <!-- 没这个bootstrap自己的响应式也暂未发现异常-->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/responsive.css') }}" type="text/css" />
+    <!-- jquery v1.11 -->
+    <script type="text/javascript" src="{{ url_for('material.static', filename='js/jquery.js') }}"></script>
+
+</head>

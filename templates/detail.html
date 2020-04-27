@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!--meta css script-->
+{% include "_head.html"%}
+{% block meta_keywords %}
+    <meta name="keywords" content="素材,UI,设计,1owo,哇哦,PSD,ps,源文件,下载,免费,蛤蟆,app图标,{{ material_list[0]['folder'] }}"/>
+{% endblock %}
+<!--meta css script-->
+
+<body>
+    <!-- MAIN WRAPPER -->
+    <div id="main-wrapper" class="animsition clearfix">
+
+        <!-- 导航 nav -->
+        {% include "_header.html" %}
+        <!-- 导航 end -->
+
+
+        <!-- 主内容区
+        ============================================= -->
+        <div id="content-wrapper" class="container wrapper">
+            
+            <!-- Blog Content
+            ============================================= -->
+            <div class="single-blog col-md-9">
+                
+                <!-- 图片预览
+                ============================================= -->
+                <article class="post wow fadeIn clearfix">
+
+                    <div class="post-date">
+                        <span class="date-number">{{ downloads }}</span>
+                        <span class="date-month">下载量</span>
+                    </div>
+                    <div class="post-meta">
+                        <h2 class="post-title">{{ material_list[0]['folder'] }}</h2>
+                        <div class="meta-post-top">
+                            <span class="author"><i class="smaze icon-eye"></i>{{ views }}</span>
+                            <span class="author"><i class="glyphicon glyphicon-download"></i>{{ downloads }}</span>
+                            <span class="author"><i class="smaze icon-user"></i>admin</span>
+                        </div>
+                    </div>
+
+                    <div class="post-content">
+                        <div class="post-thumb">
+                            {% for material in material_list %}
+                            {% if material['flag'] == 'preview_img'%}
+                            <img src="{{ material.url }}" alt="预览图" class="img-post">
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- 分享网页 -->
+                    <div class="meta-bottom clearfix">
+                        <div class="social-share col-md-3">
+                            <h4 class="share-title"><i class="icon icon-share"></i>分享</h4>
+                            <a href="#" class=" facebook"><i class="smaze icon-facebook"></i></a>
+                            <a href="#" class=" twitter"><i class="smaze icon-twitter-alt"></i></a>
+                        </div>
+                    </div>
+                    <!-- 分享网页 -->
+
+                    <!-- 翻页 -->
+                        <ul class="pager">
+                           <li class="previous"><a href="{{ url_for('material.detail_pager', folder=material_list[0]['folder'], pager='previous') }}">
+                               &larr; 上一个作品</a>
+                           </li>
+                           <li class="next"><a href="{{ url_for('material.detail_pager', folder=material_list[0]['folder'], pager='next') }}">
+                               下一个作品 &rarr;</a>
+                           </li>
+                        </ul>
+                    <!-- 翻页 -->
+                </article>
+                <!-- post article end -->
+                
+            </div>
+            <!-- blog content end -->
+
+
+
+            <!-- ##########  侧面部分 ####################
+            ============================================= -->
+            <aside id="primary-sidebar" class=" col-md-3 clearfix">
+
+                <!--  源文件下载
+                ============================================= -->
+                <div class="widget-latest-news widget">
+                    <h3 class="widget-title title-link">源文件清单</h3>
+                    <!-- 源文件清单 -->
+                    <div class="widget-news media">
+                        {% for material in material_list %}
+                        {% if material['flag'] == 'source_file' %}
+                        <img class="media-image pull-left img-rounded lighten-2" src="/material/static/img/file_type/{{ material.postfix }}.png" >
+                        <div class="media-entry">
+                            <h4 class="entry-title">{{ material.title }}<p class="pull-right text-lighten-2">{{ material.size }}MB</p></h4>
+                            <a href="{{ url_for('material.download_single',id=material['id'] )}}" target="_blank">
+                                <button class="btn btn-block btn-xs">下载</button>
+                            </a>
+                        </div>
+                        <hr class="lightgrey_divider">
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!-- 源文件清单 end -->
+                </div>
+
+
+                <!-- 小贴士 -->
+                <div class="category-widget widget">
+                    <h3 class="widget-title title-link">小贴士</h3>
+                    <ul class="widget-item">
+                        <li>下载列表如有多个源文件：不同页面、不同文件格式、单个文件或压缩包。请按需下载</li>
+                        <li>请用 最新版PS 打开源文件，否则可能无法打开或无分层</li>
+                        <li>部分源文件图层较多，请确保电脑8G以上内存</li>
+                        <li>.ai .eps 矢量文件可以通用，可用AI或CorelDraw打开</li>
+
+                    </ul>
+                </div>
+                <!-- 小贴士 -->
+
+                <!-- 工具 -->
+                <div class="category-widget widget">
+                    <h3 class="widget-title title-link">工具</h3>
+                    <ul class="widget-item">
+                        <li><a href="#">Adobe系列软件·官方在线安装</a></li>
+                        <li><a href="#">Adobe系列软件·安装程序下载</a></li>
+                        <li><a href="#">Adobe系列软件·破解补丁下载</a></li>
+                        <li><a href="#">Adobe系列软件·台湾区正版</a></li>
+                        <li><a href="#">标注工具·cutterman</a></li>
+                    </ul>
+                </div>
+                <!-- 工具 -->
+
+                <!-- 标签 -->
+                <div class="tags-widget widget">
+                    <h3 class="widget-title title-link">Tags</h3>
+                    <a href="#">Inspiration</a>
+                    <a href="#">Resource</a>
+                    <a href="#">Stories</a>
+                    <a href="#">News</a>
+                    <a href="#">Social</a>
+                    <a href="#">Photography</a>
+                    <a href="#">Design</a>
+                    <a href="#">Art</a>
+                </div>
+                <!-- 标签 -->
+
+
+            </aside>
+            <!-- end of sidebar -->
+
+
+        </div>
+        <!-- #content-wrapper end -->
+
+        <!-- FOOTER============== -->
+        {% include "_footer.html" %}
+        <!-- footer end -->
+
+    </div>
+    <!-- #main wrapper end-->
+
+    <!--========= Footer Scripts======== -->
+    {% include "_footer_script.html" %}
+    <!-- footer_script end -->
+</body>
+
+</html>

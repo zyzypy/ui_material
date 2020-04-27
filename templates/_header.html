@@ -1,0 +1,74 @@
+<!--nav-->
+<header class="site-header clearfix">
+    <div class="header-wrap no-transparent">
+        <div class="container">
+            <!-- Logo
+                ============================================= -->
+            <div class="logo">
+                <a href="{{ url_for('material.masonry') }}"><img src="{{ url_for('material.static', filename='img/logo.png') }}" alt="Logo"></a>
+            </div>
+            <!-- #logo end -->
+            <!-- Primary Navigation
+             ============================================= -->
+            <button id="menu-icon" class="burger">
+            <span class="bar bar-1"></span>
+            <span class="bar bar-2"></span>
+            <span class="bar bar-3"></span>
+            <span class="bar bar-4"></span>
+            </button>
+            <nav id="main-nav" class="clearfix">
+                <ul>
+                    <li class="menu-item-has-children {% if material_list[0]['category'] in ('mobile_interface','mobile_kit','mockup') %}active{% endif %} ">
+                        <a href="{{ url_for('material.masonry', category='mobile_interface') }}">手机UI</a>
+                        <ul class="children">
+                            <li>
+                                <a href="{{ url_for('material.masonry', category='mobile_interface') }}">app界面</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('material.masonry', category='mobile_kit') }}" class="active">app组件</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('material.masonry', category='icon') }}" class="active">app图标</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('material.masonry', category='mockup') }}">设备模型</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--不含子菜单
+                    <li>
+                        <a href="about-us.html" aria-haspopup="true">网页UI</a>
+                    </li>-->
+                    <li class="menu-item-has-children">
+                        <a href="{{ url_for('material.masonry', category='website') }}">网页UI</a>
+                        <ul class="children">
+                            <li><a href="{{ url_for('material.masonry', category='website') }}">PSD源文件</a></li>
+                            <li><a href="#">HTML/CSS模板</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children ">
+                        <a href="{{ url_for('material.masonry', category='vi') }}">平面</a>
+                        <ul class="children">
+                            <li><a href="{{ url_for('material.masonry', category='background') }}">背景 纹理</a></li>
+                            <li><a href="{{ url_for('material.masonry', category='office') }}">办公</a></li>
+                            <li><a href="{{ url_for('material.masonry', category='ppt') }}">PPT</a></li>
+                            <li><a href="{{ url_for('material.masonry', category='vi') }}">企业VI</a></li>
+                            <li><a href="{{ url_for('material.masonry', category='button') }}">按钮</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children disabled">
+                        <a href="#">国外设计论坛</a>
+                        <ul class="children">
+                            <li class="disabled"><a href="#">dribbble</a></li>
+                        </ul>
+                    </li>
+                    <li class="disabled">
+                        <a href="{{ url_for('material.resume')}} ">联系我们</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- #main-nav end -->
+        </div>
+        <!-- header-wrap end -->
+    </div>
+</header>

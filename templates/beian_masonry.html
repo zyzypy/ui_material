@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!--==========title============-->
+    <title>哇哦UI</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="copyright" content="1owo.com"/>
+    <meta name="description" content="素材在精而不在多 高质量国外UI设计素材 手机APP 网页 PSD AI 免费素材"/>
+    <!-- css bootstrap v3.3-->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/bootstrap.min.css') }}" type="text/css" />
+    <!-- js插件 animsition动效 FlexSlider pagepackery布局 -->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/plugin.css') }}" type="text/css" />
+    <!-- icons via font-->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/font.css') }}" type="text/css" />
+    <!-- !!custom style -->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/custom_style.css') }}" type="text/css" />
+    <!-- 没这个bootstrap自己的响应式也暂未发现异常-->
+    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/responsive.css') }}" type="text/css" />
+
+    <!-- jquery v1.11 -->
+    <script type="text/javascript" src="{{ url_for('material.static', filename='js/jquery.js') }}"></script>
+
+</head>
+
+<body>
+    <!-- MAIN WRAPPER -->
+    <div id="main-wrapper" class="animsition clearfix">
+
+        <!-- HEADER -->
+        <header class="site-header clearfix">
+            <div class="header-wrap no-transparent">
+                <div class="container">
+                    <!-- Logo
+                        ============================================= -->
+                    <div class="logo"><h4>哇哦UI</h4>
+{#                        <a href="index.html"><img src="{{ url_for('material.static', filename='img/logo.png') }}" alt="Logo"></a>#}
+                    </div>
+                    <!-- #logo end -->
+                    <!-- Primary Navigation
+                     ============================================= -->
+                    <button id="menu-icon" class="burger">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                    <span class="bar bar-4"></span>
+                    </button>
+                    <nav id="main-nav" class="clearfix">
+                        <ul>
+                            <li class="menu-item-has-children active">
+                                <a href="{{ url_for('material.masonry', category='mobile_interface') }}">手机UI</a>
+                                <ul class="children">
+                                    <li><a href="{{ url_for('material.masonry', category='mobile_kit') }}">app组件</a></li>
+                                    <li><a href="{{ url_for('material.masonry', category='mobile_interface') }}">app界面</a></li>
+                                    <li><a href="{{ url_for('material.masonry', category='mockup') }}">设备模型</a></li>
+                                </ul>
+                            </li>
+                            <!--不含子菜单
+                            <li>
+                                <a href="about-us.html" aria-haspopup="true">网页UI</a>
+                            </li>-->
+                            <li class="menu-item-has-children">
+                                <a href="{{ url_for('material.masonry', category='website') }}">网页UI</a>
+                                <ul class="children">
+{#                                    <li><a href="{{ url_for('material.masonry', category='website') }}">PSD源文件</a></li>#}
+{#                                    <li><a href="#">HTML/CSS模板</a></li>#}
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children ">
+                                <a href="{{ url_for('material.masonry', category='vi') }}">平面</a>
+                                <ul class="children">
+                                    <li><a href="{{ url_for('material.masonry', category='background') }}">背景 纹理</a></li>
+{#                                    <li><a href="{{ url_for('material.masonry', category='office') }}">办公</a></li>#}
+                                    <li><a href="{{ url_for('material.masonry', category='ppt') }}">PPT</a></li>
+{#                                    <li><a href="{{ url_for('material.masonry', category='vi') }}">企业VI</a></li>#}
+                                    <li><a href="{{ url_for('material.masonry', category='button') }}">按钮</a></li>
+                                </ul>
+                            </li>
+{#                            <li class="menu-item-has-children disabled">#}
+{#                                <a href="#">国外设计论坛</a>#}
+{#                                <ul class="children">#}
+{#                                    <li><a href="#">dribbble</a></li>#}
+{#                                    <li><a href="#">有空请反馈下是否比dribbble源站快</a></li>#}
+{#                                </ul>#}
+{#                            </li>#}
+                            <li class="disabled">
+                                <a href="#">留言</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- #main-nav end -->
+                </div>
+                <!-- header-wrap end -->
+            </div>
+        </header>
+        <!-- header end -->
+
+        <!-- CONTENT WRAPPER
+        ============================================= -->
+        <div id="content-wrapper" class="masonry-blog">
+
+            <!-- Blog Masonry Content
+            ============================================= -->
+            <section class="blog-home clearfix">
+
+                <div class="container">
+                    <!--<h2 class="thetitle wow fadeIn">
+                         高质量UI设计素材
+                    </h2>-->
+                    <!--名言-->
+                    <p class="subtitle wow fadeIn">
+                        {{ subtitle }}
+                    </p>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}<strong class="has-error 取数据错误或空集">{{ message }}</strong>{% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <!-- material_list
+                    ============================================= -->
+                    <div id="blog-block">
+                        {% for material in material_list %}
+                        <article class="blog-item"> <!-- wide-blog has-post-thumbnail-->
+                        <div class="blog-desc blog-wrap wow fadeInUp " style="margin-right: 10px;margin-bottom: 20px;"><!-- 似乎packery js覆盖样式，所以调整行内样式-->
+                            <div class=" blog-overlay" >
+                               <div style="padding: 20px 40px 6px 40px;">
+                                   <div class="blog-date title">{{ material['folder'] }}</div>
+                                   <p class="blog-excerpt">{{ material.views }} views | {{ material.downloads }} downloads </p>
+                               </div>
+                            <img src="{{ material.url }}" alt="Portfolio 1" />
+{#                            <a href="#" class="read-more btn pull-right">顶</a>#}
+                            </div>
+                        </div>
+                        </article>
+                        {% endfor %}
+<!--
+                         <article class="blog-item has-post-thumbnail ">
+                            <div class="blog-wrap wow fadeInUp">
+                                <img src="../static/design/img/blog7.png" alt="Portfolio 1" />
+                                <div class="blog-desc">
+                                    <div class="blog-date">19 MAR, 2015</div>
+                                    <h3 class="blog-title">We Think Our Work Speaks For Itself</h3>
+                                    <p class="blog-excerpt">We think our work speaks for itself. We craft bespoke websites, digital tools, info-graphics and logos to bring websites, digital tools, info-graphics</p>
+                                    <a href="single-post.html" class="read-more btn">Full Story</a>
+                                 </div>
+                             </div>
+                          </article>
+-->
+                    </div>
+
+                    <div class="分页" style="margin-top: 80px;">
+                        <ul class="pagination pagination-lg center-align">
+                            {# pageamount=2 rang(2)=[0,1] loop.index会转为[1,2]#}
+                            {% for i in  range(pagination['page_amount'])  %}
+                                {% if loop.first %}<li><a href="{{ url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&laquo;</a></li>{% endif %}
+                                <li {%if loop.index==pagination['current_page_number'] %} class="active" {%endif%}>
+                                    <a href="{{  url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])  }}" >{{ loop.index }}</a>
+                                </li>
+                                {% if loop.last %}<li><a href="{{url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&raquo;</a></li>{% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- blog-block end -->
+                </div>
+                <!-- container end -->
+
+                <!-- 自适应布局 Script
+                plugin.js中放了一些插件 包括packery布局
+                http://isotope.metafizzy.co/layout-modes.html
+                ============================================= -->
+                <script type="text/javascript">
+
+                    jQuery(window).load(function(){
+
+                        var $containerBlog = $('#blog-block');
+
+                        $containerBlog.isotope({
+                            transitionDuration: '0.65s',
+                            layoutMode: 'masonry',
+                        });
+
+                        $(window).resize(function() {
+                            $containerBlog.isotope('layout');
+                        });
+
+                    });
+
+                </script>
+                <!-- Blog Script End -->
+            </section>
+            <!-- Blog Home end -->
+
+        </div>
+        <!-- #content-wrapper end -->
+
+        <!-- FOOTER
+        ============================================= -->
+        <footer class="site-footer">
+            <div class="container">
+
+                <!-- Footer Top
+                ============================================= -->
+                <div class="footer-top">
+                    <div class="logo-footer wow fadeIn">哇哦UI
+{#                        <img src="{{ url_for('material.static', filename='img/logo.png') }}" alt="Logo">#}
+                    </div>
+                    <p class="thetitle">个人UI 作品收集</p>
+                    <p class="subtitle-footer wow fadeIn">
+                        关于我 | 联系我 |  建议
+                    </p>
+                    <a href="#"  class="btn wow fadeIn">留言</a>
+                    <div class="footer-social">
+                        <ul class="social-profile">
+                            <li class="twitter"><a href="#"><i class="icon icon-social-twitter"></i></a></li>
+                            <li class="facebook"><a href="#"><i class="icon icon-social-facebook"></i></a></li>
+                            <li class="youtube"><a href="#"><i class="icon icon-social-youtube"></i></a></li>
+                            <li class="dribble"><a href="www.dribbble.com"><i class="icon icon-social-dribbble"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- footer-top end -->
+            </div>
+            <!-- container -->
+
+            <!-- Footer Bottom
+            ============================================= -->
+            <div class="footer-bottom clearfix ">
+                <div class="copyright-footer">
+                    <p>Copyright &#169; 2016, All Rights Reserved <a href="#">哇哦UI</a></p>
+                    <p><a target="_blank" href="http://www.miitbeian.gov.cn">豫ICP备16021043号-1</a></p>
+                </div>
+            </div>
+            <!-- footer-bottom end -->
+
+        </footer>
+        <!-- footer end -->
+
+
+    </div>
+    <!-- #main wrapper end-->
+
+
+
+
+    <!-- Footer Scripts
+    ============================================= -->
+    <!-- external -->
+    <script type="text/javascript" src="{{ url_for('material.static', filename='js/plugin.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('material.static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

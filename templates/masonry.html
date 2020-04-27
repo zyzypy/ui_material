@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!--meta css script-->
+{% include "_head.html"%}
+{% block meta_keywords %}
+    <meta name="keywords" content="素材,UI,设计,1owo,哇哦,PSD,ps,源文件,下载,免费,蛤蟆,app图标,{{ material_list[0]['category'] }}"/>
+{% endblock %}
+<!--meta css script-->
+
+<body>
+    <!-- MAIN WRAPPER -->
+    <div id="main-wrapper" class="animsition clearfix">
+
+        <!-- 导航 nav -->
+        {% include "_header.html" %}
+        <!-- 导航 end -->
+
+        <!-- CONTENT WRAPPER
+        ============================================= -->
+        <div id="content-wrapper" class="masonry-blog">
+
+            <!-- Blog Masonry Content
+            ============================================= -->
+            <section class="blog-home clearfix">
+
+                <div class="container">
+                    <!--<h2 class="thetitle wow fadeIn">
+                         高质量UI设计素材
+                    </h2>-->
+                    <!--名言-->
+                    <p class="subtitle wow fadeIn">
+                        {{ subtitle }}
+                    </p>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}<strong class="has-error 取数据错误或空集">{{ message }}</strong>{% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <!-- ##### material_list 瀑布流单元 #####-->
+                    <div id="blog-block">
+                        {% for material in material_list %}
+                        <article class="blog-item"> <!-- wide-blog has-post-thumbnail-->
+                        <div class="blog-desc blog-wrap wow fadeInUp " style="margin-right: 10px;margin-bottom: 20px;"><!-- 似乎packery js覆盖样式，所以调整行内样式-->
+                            <div class=" blog-overlay" >
+                               <div style="padding: 20px 40px 6px 40px;">
+                                   <div class="blog-date title">{{ material['folder'] }}</div>
+                                   <p class="blog-excerpt">{{ material.views }} views | {{ material.downloads }} downloads </p>
+                               </div>
+                            <a href="{{ url_for('material.detail', folder=material['folder'] )}}"><img src="{{ material.url }}" alt="预览图 主图" /></a>
+                            <a href="{{ url_for('material.detail', folder=material['folder'] )}}" class="read-more btn pull-right">详情</a>
+                            </div>
+                        </div>
+                        </article>
+                        {% endfor %}
+<!--
+                         <article class="blog-item has-post-thumbnail ">
+                            <div class="blog-wrap wow fadeInUp">
+                                <img src="../static/design/img/blog7.png" alt="Portfolio 1" />
+                                <div class="blog-desc">
+                                    <div class="blog-date">19 MAR, 2015</div>
+                                    <h3 class="blog-title">We Think Our Work Speaks For Itself</h3>
+                                    <p class="blog-excerpt">We think our work speaks for itself. We craft bespoke websites, digital tools, info-graphics and logos to bring websites, digital tools, info-graphics</p>
+                                    <a href="single-post.html" class="read-more btn">Full Story</a>
+                                 </div>
+                             </div>
+                          </article>
+-->
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="分页" style="margin-top: 80px;">
+                        <ul class="pagination pagination-lg center-align">
+                            {# pageamount=2 rang(2)=[0,1] loop.index会转为[1,2]#}
+                            {% for i in  range(pagination['page_amount'])  %}
+                                {% if loop.first %}<li><a href="{{ url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&laquo;</a></li>{% endif %}
+                                <li {%if loop.index==pagination['current_page_number'] %} class="active" {%endif%}>
+                                    <a href="{{  url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])  }}" >{{ loop.index }}</a>
+                                </li>
+                                {% if loop.last %}<li><a href="{{url_for('material.masonry', current_page_number=loop.index, category=material_list[0]['category'])}}">&raquo;</a></li>{% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- 分页 end -->
+                </div>
+                <!-- container end -->
+
+                <!-- 自适应布局 Script
+                plugin.js中放了一些插件 包括packery布局
+                http://isotope.metafizzy.co/layout-modes.html
+                ============================================= -->
+                <script type="text/javascript">
+
+                    jQuery(window).load(function(){
+
+                        var $containerBlog = $('#blog-block');
+
+                        $containerBlog.isotope({ 
+                            transitionDuration: '0.65s',
+                            layoutMode: 'masonry',
+                        });
+
+                        $(window).resize(function() {
+                            $containerBlog.isotope('layout');
+                        });
+
+                    });
+
+                </script>
+                <!-- Blog Script End -->
+            </section>
+            <!-- Blog Home end -->
+
+        </div>
+        <!-- #content-wrapper end -->
+
+        <!-- FOOTER============== -->
+        {% include "_footer.html" %}
+        <!-- footer end -->
+
+
+    </div>
+    <!-- #main wrapper end-->
+
+    <!--========= Footer Scripts======== -->
+    {% include "_footer_script.html" %}
+    <!-- footer_script end -->
+</body>
+
+</html>
