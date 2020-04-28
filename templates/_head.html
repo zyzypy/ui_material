@@ -7,22 +7,22 @@
     <meta name="author" content="杨铮"/>
     <meta name="copyright" content="1owo.com"/>
     {% block meta_keywords %}
-    <meta name="keywords" content="设计素材,UI,PSD,ps,源文件,下载,免费"/>
+    <meta name="keywords" content="设计素材,UI,PSD,ps,源文件,下载,免费,蛤蟆,+1s"/>
     {% endblock meta_keywords %}
     <meta name="description" content="免费高质量国外UI设计素材 手机APP 网页 PSD AI 免费素材 程序员习作"/>
     <!-- shortcut -->
-    <link rel="shortcut icon" href="{{ url_for('material.static', filename='img/favicon.ico') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}"/>
     <!-- css bootstrap v3.3-->
-    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/bootstrap.min.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css" />
     <!-- js插件 animsition动效 FlexSlider pagepackery布局 -->
-    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/plugin.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin.css') }}" type="text/css" />
     <!-- icons via font-->
-    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/font.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font.css') }}" type="text/css" />
     <!-- !!custom style -->
-    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/custom_style.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_style.css') }}" type="text/css" />
     <!-- 没这个bootstrap自己的响应式也暂未发现异常-->
-    <link rel="stylesheet" href="{{ url_for('material.static', filename='css/responsive.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}" type="text/css" />
     <!-- jquery v1.11 -->
-    <script type="text/javascript" src="{{ url_for('material.static', filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 
 </head>
