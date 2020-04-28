@@ -10,7 +10,9 @@ from subtitle import subtitles
 CONFIG = {
     'SECRET_KEY': 'canaanyz',
     'DOMAIN_FLASK_CDN': 'https://ui.cdn.1owo.com',
-    'DB_PATH': os.path.join(os.path.dirname(__file__), 'sqlite.db')
+    'DB_PATH': os.path.join(os.path.dirname(__file__), 'sqlite.db'),
+    'UI_SOURCE_FILE_POSTFIX_LIST': ('psd', 'ai', 'eps', 'rar', 'zip', 'ppt', 'pptx', 'psb', 'sketch'),
+    'UI_SOURCE_PREVIEW_POSTFIX_LIST': ('jpg', 'jpeg', 'png', 'gif')
 }
 
 
@@ -77,7 +79,7 @@ def masonry(category, current_page_number, page_size):
         connection.close()
 
     # ===== 注意配置测试或cdn域名 =======
-    # url加工，这部分经常变化所以从数据库取出后再处理
+    # url加工，这部分经常变化所以从数据库取出后再处理。上线后cdn有refer验证本地会404，请替换成你自己的路径。
     for material in material_list:
             material['url'] = app.config['DOMAIN_FLASK_CDN'] + material['key']
     subtitle = subtitles[randint(0, len(subtitles)-1)]
@@ -91,43 +93,48 @@ def detail(folder):
     :param folder:作品目录
     :return:作品目录下的所有文件 包含预览图和源文件
     """
-    connection = ''#pymysql.connect(**DB_CONFIG)
+    connection = sqlite3.connect(app.config['DB_PATH'])
+    connection.row_factory = dict_factory
     try:
-        with connection.cursor() as cursor:
-            # 取一个作品目录下的数据
-            sql_params = ''#multi_params(folder)
-            sql = 'select * from material where folder=%s' % sql_params
-            cursor.execute(sql)
-            material_list = cursor.fetchall()
+        cursor = connection.cursor()
+        # 取一个作品目录下的数据
+        sql_params = tuple((folder,))
+        sql = """select * from material where folder=?"""
+        cursor.execute(sql, sql_params)
+        # 命名有歧义，首页中material代表一个作品集，这里代表作品集下的一个源文件或预览图。为减少修改没有动。
+        material_list = cursor.fetchall()
 
-            # 浏览量views加1    写入是主图的那条记录
-            sql_params2 = ''#multi_params(1, folder, True)
-            sql2 = 'update material set views=views+%s where folder=%s and main_img_flag=%s' % sql_params2
-            cursor.execute(sql2)
-            connection.commit()
+        if len(material_list) == 0:  # 爬虫有时请求 /detail/index.html 或url错误导致没有查询结果
+            abort(404)
+
+        # 浏览量views加1    写入是主图的那条记录
+        sql_params2 = tuple((1, folder, True))
+        sql2 = """update material set views=views+? where folder=? and main_img_flag=?"""
+        cursor.execute(sql2, sql_params2)
+        connection.commit()
     except Exception as sql_error:
         print('sql_error ' + str(sql_error))
-        return '模块material.detail 内部错误，请联系管理员'
+        return 'detail() 内部错误，请联系管理员'
     finally:
         connection.close()
 
     # 拼url，不进行图像缩放，判断资源是源文件还是图片。
     views = 0
     downloads = 0
-    if len(material_list) == 0:     # 爬虫有时请求 /detail/index.html 或url错误导致没有查询结果
-        abort(404)
-    else:
-        for material in material_list:      # 拼接url，区分预览图和源文件
-            material['url'] = ['DOMAIN_FLASK_CDN'] + '/' + material['key']
-            if material['postfix'] in ('psd', 'ai', 'eps', 'rar', 'zip', 'ppt', 'pptx', 'psb', 'sketch'):
-                material['flag'] = 'source_file'
-                downloads = material['downloads'] if material['downloads'] >= downloads else downloads  # 几个源文件可能下载次数不同，取最多次的
-            elif material['postfix'] in ('jpg', 'jpeg', 'png', 'gif'):
-                material['flag'] = 'preview_img'
-                if material['main_img_flag']:
-                    views = material['views']
 
-        return render_template('detail.html', material_list=material_list, downloads=downloads, views=views)
+    for material in material_list:      # 拼接url，区分预览图和源文件
+        material['url'] = app.config['DOMAIN_FLASK_CDN'] + material['key']
+        material['size'] = round(material['size']/1024/1024, 2)
+        # 源文件后缀
+        if material['postfix'] in app.config['UI_SOURCE_FILE_POSTFIX_LIST']:
+            material['flag'] = 'source_file'
+            downloads = material['downloads'] if material['downloads'] >= downloads else downloads  # 几个源文件可能下载次数不同，取最多次的
+        elif material['postfix'] in app.config['UI_SOURCE_PREVIEW_POSTFIX_LIST']:
+            material['flag'] = 'preview_img'
+            if material['main_img_flag']:
+                views = material['views']
+
+    return render_template('detail.html', material_list=material_list, downloads=downloads, views=views)
 
 
 @app.route('/detail/<folder>/<pager>')
@@ -137,15 +144,17 @@ def detail_pager(folder, pager):
     :param pager:
     :return: folder ，重定向到 detail()
     """
-    connection = '' #pymysql.connect(**DB_CONFIG)
+    connection = sqlite3.connect(app.config['DB_PATH'])
+    connection.row_factory = dict_factory
+    cursor = connection.cursor()
+    # 查所有作品集然后取上一个或下一个作品名，再携带参数重定向到detail作品详情页
     try:
-        with connection.cursor() as cursor:
-            sql = 'select DISTINCT %s from material' % 'folder'
-            cursor.execute(sql)
-            folder_results = cursor.fetchall()     # [{'folder':'按钮 50个 酷黑'}，{ }，{ }]
+        sql = """select DISTINCT folder from material"""
+        cursor.execute(sql)
+        folder_results = cursor.fetchall()     # [{'folder':'按钮 50个 酷黑'}，{ }，{ }]
     except Exception as sql_error:
         print('sql_error ' + str(sql_error))
-        return '模块material.detail_pager 内部错误，请联系管理员'
+        return '视图detail_pager 内部错误，请联系管理员'
     finally:
         connection.close()
 
@@ -168,7 +177,7 @@ def detail_pager(folder, pager):
         abort(404)
     # print(folder)
 
-    return redirect(url_for('material.detail', folder=folder))
+    return redirect(url_for('detail', folder=folder))
 
 
 @app.route('/download_single/<id>')
@@ -181,32 +190,33 @@ def download_single(id):
     :param url:
     :return:
     """
-    connection = None
+    connection = sqlite3.connect(app.config['DB_PATH'])
+    connection.row_factory = dict_factory
+    cursor = connection.cursor()
     try:
-        with connection.cursor() as cursor:
-            # 取一个作品下一个文件的url
-            sql_params = '' #multi_params(id)
-            sql = 'select key from material where id=%s' % sql_params
-            cursor.execute(sql)
-            key = cursor.fetchone()      # {'col':'value'}
-            # 一个作品下一个文件的下载量加1
-            sql2 = 'update material set downloads=downloads+1 where id=%s' % sql_params
-            cursor.execute(sql2)
-            connection.commit()
+        # 取一个作品下一个文件的url
+        sql_params = tuple((id,))
+        sql = """select key from material where id=?"""
+        cursor.execute(sql, sql_params)
+        key = cursor.fetchone()      # {'col':'value'}
+        # 一个作品下一个文件的下载量加1
+        sql2 = 'update material set downloads=downloads+1 where id=?'
+        cursor.execute(sql2, sql_params)
+        connection.commit()
     except Exception as sql_error:
         print('sql_error ' + str(sql_error))
-        return '模块material.download_single 内部错误，请联系管理员'
+        return '视图download_single 内部错误，请联系管理员'
     finally:
         connection.close()
 
-    url = ['DOMAIN_FLASK_CDN'] + '/' + key['key']
+    url = app.config['DOMAIN_FLASK_CDN'] + key['key']
     return redirect(url)
 
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return redirect(url_for('material.masonry'))
+    return redirect(url_for('masonry'))
 
 
 # deploye

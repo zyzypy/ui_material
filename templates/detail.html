@@ -64,10 +64,10 @@
 
                     <!-- 翻页 -->
                         <ul class="pager">
-                           <li class="previous"><a href="{{ url_for('material.detail_pager', folder=material_list[0]['folder'], pager='previous') }}">
+                           <li class="previous"><a href="{{ url_for('detail_pager', folder=material_list[0]['folder'], pager='previous') }}">
                                &larr; 上一个作品</a>
                            </li>
-                           <li class="next"><a href="{{ url_for('material.detail_pager', folder=material_list[0]['folder'], pager='next') }}">
+                           <li class="next"><a href="{{ url_for('detail_pager', folder=material_list[0]['folder'], pager='next') }}">
                                下一个作品 &rarr;</a>
                            </li>
                         </ul>
@@ -92,10 +92,10 @@
                     <div class="widget-news media">
                         {% for material in material_list %}
                         {% if material['flag'] == 'source_file' %}
-                        <img class="media-image pull-left img-rounded lighten-2" src="/material/static/img/file_type/{{ material.postfix }}.png" >
+                        <img class="media-image pull-left img-rounded lighten-2" src="/static/img/file_type/{{ material.postfix }}.png" >
                         <div class="media-entry">
                             <h4 class="entry-title">{{ material.title }}<p class="pull-right text-lighten-2">{{ material.size }}MB</p></h4>
-                            <a href="{{ url_for('material.download_single',id=material['id'] )}}" target="_blank">
+                            <a href="{{ url_for('download_single',id=material['id'] )}}" target="_blank">
                                 <button class="btn btn-block btn-xs">下载</button>
                             </a>
                         </div>
@@ -122,9 +122,9 @@
 
                 <!-- 工具 -->
                 <div class="category-widget widget">
-                    <h3 class="widget-title title-link">工具</h3>
+                    <h3 class="widget-title title-link">工具(链接已失效)</h3>
                     <ul class="widget-item">
-                        <li><a href="#">Adobe系列软件·官方在线安装</a></li>
+                        <li><a href="#" class="disabled">Adobe系列软件·官方在线安装</a></li>
                         <li><a href="#">Adobe系列软件·安装程序下载</a></li>
                         <li><a href="#">Adobe系列软件·破解补丁下载</a></li>
                         <li><a href="#">Adobe系列软件·台湾区正版</a></li>
