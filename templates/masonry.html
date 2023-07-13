@@ -24,10 +24,6 @@
             <section class="blog-home clearfix">
 
                 <div class="container">
-                    <!--<h2 class="thetitle wow fadeIn">
-                         高质量UI设计素材
-                    </h2>-->
-                    <!--名言-->
                     <p class="subtitle wow fadeIn">
                         {{ subtitle }}
                     </p>
@@ -46,25 +42,14 @@
                                    <div class="blog-date title">{{ material['folder'] }}</div>
                                    <p class="blog-excerpt">{{ material.views }} views | {{ material.downloads }} downloads </p>
                                </div>
-                            <a href="{{ url_for('detail', folder=material['folder'] )}}"><img src="{{ material.url }}" alt="预览图 主图" /></a>
-                            <a href="{{ url_for('detail', folder=material['folder'] )}}" class="read-more btn pull-right">详情</a>
+                            <a href="{{ url_for('detail', folder=material['folder'] )}}">
+                              <img src="{{ material.url }}" alt="预览图 主图" /></a>
+                            <a href="{{ url_for('detail', folder=material['folder'] )}}" class="read-more btn pull-right">
+                              详情</a>
                             </div>
                         </div>
                         </article>
                         {% endfor %}
-<!--
-                         <article class="blog-item has-post-thumbnail ">
-                            <div class="blog-wrap wow fadeInUp">
-                                <img src="../static/design/img/blog7.png" alt="Portfolio 1" />
-                                <div class="blog-desc">
-                                    <div class="blog-date">19 MAR, 2015</div>
-                                    <h3 class="blog-title">We Think Our Work Speaks For Itself</h3>
-                                    <p class="blog-excerpt">We think our work speaks for itself. We craft bespoke websites, digital tools, info-graphics and logos to bring websites, digital tools, info-graphics</p>
-                                    <a href="single-post.html" class="read-more btn">Full Story</a>
-                                 </div>
-                             </div>
-                          </article>
--->
                     </div>
 
                     <!-- 分页 -->

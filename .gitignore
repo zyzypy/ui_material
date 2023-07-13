@@ -1,4 +1,6 @@
+sqlite.db
+venv
+ui_material
+
 .idea
 .DS_Store
-venv
-sqlite.db

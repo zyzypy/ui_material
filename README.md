@@ -1,34 +1,50 @@
-## demo
-[在线地址](https://ui.1owo.com)
-图片较多初次加载耐心等待⌛️。
+UI Material Download
+===
+## Brief
+Status: Depreciated  
+Year: 2015  
+Live Demo: [live demo](https://ui_material.zyzypy.com)
 
-## 介绍
-自学完python和flask时所做。时从UI回到编程，**想做一个UI和编程的交叉领域产物——素材站**。这是第一个较为完整的个人项目。  
+Introduce:  
+A Demo about UI material download website. Mainly contains mobile and web user interface works,
+mainly file type is .psd(Photoshop) and .ai(Illustrator).   
 
-### 2016-05 
-技术栈：flask、七牛云、一个第三方bootstrap博客模板、masonry.js瀑布流插件。  
+It's the first website I develop from frontend to backend to deploy, after I just self-studied Python and Flask, and
+resigned as a UI designer.I want to do a work relates programming and UI design, then this material download website came out.
+It's a fresh project different to normal tutorial neither nor personal demo.
+Commemorative to me, but technology stack is outdated and popular UI software are not Photoshop/Illustrator/Sketch for a long time.
+And limited by the ability then(code duplicated and so on), So the Status is Depreciated, only used by my portfolio website.  
 
-素材来自网络、淘宝、国外免费下载站等，经过本人筛选，质量上乘。  
-比较费功夫的地方是从pdf生成缩略图，**那么多的python包竟然没有找到解析psd的**，当时还考虑过ps插件、动作和adobe脚本，但也不好办。  
-**最终手动，辛苦了三四天，用ps快捷键和动作，手工整理了一百多套素材，2k个小文件共9Gb**。
+UI素材下载网站Demo。包含内容有手机端和网页端软件界面作品。主要格式为.psd(Photoshop)和.ai(Illustrator)。  
 
-代码写于2016年，毕业三年（但只有刚毕业时的半年编码工作经验，后职业为UI设计师，中间偶尔自学过编码知识，再然后家里蹲半年自学python flask 树莓派），
-因此代码有设计实现不成熟的地方。  
-代码有着那年的青涩，有一些缺点  
-- 封装程度不高。
-- 部分逻辑不够合理。表设计有点问题。用文档型数据库比较好。未使用orm，未把数据库连接关闭封装到g对象和请求中间件，代码有点重复，但比较好理解。
-- 代码暴露配置，不安全
-- 因为插件根据图片尺寸计算，首此加载会比较慢
+2015年，我刚自学学会Python（廖雪峰教程）和Flask（Flask开发实战，封面是一只素描的狗），因为做过UI设计师，所以想做一个素材下载网站。
+由于技术栈和素材格式都过时了，加上当时水平不高设计的有些问题(数据库连接没有重用，代码重复多。没有使用代码生成psd缩略图，手工工作量大。
+源文件与预览图片只能通过文件类型区分。图片流全加载完才显示等待较久。)，现在本项目仅用于个人纪念。
 
-### 2020-04 update
-将之前的这个项目部署到个人作品网站上。保持原样，少量修改：    
-- 素材已随云主机放置到腾讯云对象存储。因为素材停止更新，脚本直接从本地移动硬盘读取信息，而不是请求对象存储api。废弃的脚本在/discard文件夹。
-- 数据表只有一张，换mysql为更简单的sqlite。表字段命名不太好也没改。
-- flask的版本更新，如debug模式根据环境变量，更安全更适合部署。
-- 素材已停止更新，即使今天看一些素材质量仍然很高，但这几年UI行业也在发展，作品是越来越优秀了。当年收集的素材会慢慢过时。
-- 此项目已停止更新。因为素材站要考虑版权，逻辑也并不简单，还有流量费成本。未来即使有需求也会重写。
 
-## 食用方法
-适合flask初学者参考，flask的教程比较少，"狗书""flask web开发"讲的很好，但插件用的多隐藏了细节。我当时看完"flask web开发"那本书后发觉还是不会用，于是又到
-github上看了几个不用插件实现的学生管理系统。再尝试不用orm、只是用flask基础知识，按照想法把东西实现出来，在不断解决问题的过程中学会。  
-其中的一些技术已经过时了，但个人初学者搞前后端分离成本很高，先用flask做一个项目是不错的学习手段。根据自己需要参考。
+## Tech Stack
+Frontend: Jinja2 Bootstrap masonry.js HTML  
+Backend: Python Flask 
+Storage: SevenCow OSS(v1), MySQL(v1), Sqlite(v2), local on cloud server(v2)
+Deployment: deployment tool on Pycharm, gunicorn, docker(v2)
+
+The database table is simple and OSS is a little expensive for an outdated demo, so storage choice has been simplified.
+This tech stack is nostalgic, Flask with template syntax, quickly replaced by frontend-backend separation development mode.
+
+第一版使用了七牛云对象存储和MySQL数据库，因为表结构很简单，只是一个demo，云存储有点贵，所以第二版变为Sqlite加云服务器本地存储。
+Flask框架、前端Jinja模版语法渲染、Bootstrap CSS框架，是那个时代的回忆，之后迅速地被前后端分离开发模式取代。
+
+
+## Screen shot
+![1](./README_IMG/1.png)
+![2](./README_IMG/2.png)
+
+
+## 源文件目录维护:
+<catalog>/<作品名>/【预览】封面.jpg            没有在数据库后台一一标注封面，这算是一种简单的标注。
+<catalog>/<作品名>/普通图片1.jpg              作品详情页的预览图，写本项目时水平不够，当时也没找到有人做psd预览库，2020时修改此项目时发现有psd的操作库。
+<catalog>/<作品名>/源文件1.psd                psd、ai、rar等源文件格式。
+
+
+## License
+UI files collected from Web, delete if infringement.

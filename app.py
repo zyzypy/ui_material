@@ -4,13 +4,13 @@ from random import randint
 from math import ceil
 from flask import Flask, redirect, url_for, render_template, flash, abort
 
-from subtitle import subtitles
-
 # 配置
 CONFIG = {
-    'SECRET_KEY': 'canaanyz',
-    'DOMAIN_FLASK_CDN': 'https://ui.cdn.1owo.com',
-    'DB_PATH': os.path.join(os.path.dirname(__file__), 'sqlite.db'),
+    'SECRET_KEY': 'efaecccd3dc8a4921f3482d7807e5ff1da2462884dfa443d8521ad6afa34a041',
+    # CDN 域名。本地路径的话自带的静态资源服务需要改代码，最好自己做静态文件反代。
+    'BASE_PATH': 'https://buckets.zyzypy.com/ui_material/',
+    'DB_PATH': './sqlite.db',
+    # 下载源文件格式和预览图片格式
     'UI_SOURCE_FILE_POSTFIX_LIST': ('psd', 'ai', 'eps', 'rar', 'zip', 'ppt', 'pptx', 'psb', 'sketch'),
     'UI_SOURCE_PREVIEW_POSTFIX_LIST': ('jpg', 'jpeg', 'png', 'gif')
 }
@@ -31,6 +31,7 @@ def dict_factory(cursor, row):
     return d
 
 
+# todo多个route()应该改成重定向或把业务逻辑抽出来做函数
 @app.route('/', defaults={'category': 'mobile_interface', 'current_page_number': 1, 'page_size': 20})
 @app.route('/index', defaults={'category': 'mobile_interface', 'current_page_number': 1, 'page_size': 20})
 @app.route('/index/<category>', defaults={'current_page_number': 1, 'page_size': 20})
@@ -81,8 +82,8 @@ def masonry(category, current_page_number, page_size):
     # ===== 注意配置测试或cdn域名 =======
     # url加工，这部分经常变化所以从数据库取出后再处理。上线后cdn有refer验证本地会404，请替换成你自己的路径。
     for material in material_list:
-            material['url'] = app.config['DOMAIN_FLASK_CDN'] + material['key']
-    subtitle = subtitles[randint(0, len(subtitles)-1)]
+            material['url'] = app.config['BASE_PATH'] + material['key']
+    subtitle = '一位做过UI设计师的后端程序员做的网站Demo'
     return render_template('masonry.html', material_list=material_list, subtitle=subtitle, pagination=pagination)
 
 
@@ -123,7 +124,7 @@ def detail(folder):
     downloads = 0
 
     for material in material_list:      # 拼接url，区分预览图和源文件
-        material['url'] = app.config['DOMAIN_FLASK_CDN'] + material['key']
+        material['url'] = app.config['BASE_PATH'] + material['key']
         material['size'] = round(material['size']/1024/1024, 2)
         # 源文件后缀
         if material['postfix'] in app.config['UI_SOURCE_FILE_POSTFIX_LIST']:
@@ -209,7 +210,7 @@ def download_single(id):
     finally:
         connection.close()
 
-    url = app.config['DOMAIN_FLASK_CDN'] + key['key']
+    url = app.config['BASE_PATH'] + key['key']
     return redirect(url)
 
 
@@ -227,4 +228,4 @@ def page_not_found(error):
 # 生产环境关闭debug
 if __name__ == '__main__':
     # export FLASK_DEBUG = True
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=5000)
