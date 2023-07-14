@@ -1,4 +1,4 @@
-# 数据库初始化脚本。
+# 从资料源文件到数据库。由于项目不再更新仅用于展示，直接复制sqlite.db.init就可以。
 import os
 import sqlite3
 
@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS material
 connection.execute(sql)
 connection.commit()
 
+if not os.path.exists(BUCKET_LOCAL_PATH):
+    raise OSError(f'{BUCKET_LOCAL_PATH} does not exist.')
 batch_list = []
 for root, dirs, files in os.walk(BUCKET_LOCAL_PATH):
     # os.walk()返回值结构 /<BUCKET_LOCAL_PATH> 、['文件夹1', '文件夹2', 'icon','website']、 ['单个文件1']，然后递归进入更深层目录。
