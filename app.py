@@ -129,11 +129,11 @@ def detail(folder):
         # 源文件后缀
         if material['postfix'] in app.config['UI_SOURCE_FILE_POSTFIX_LIST']:
             material['flag'] = 'source_file'
-            downloads = material['downloads'] if material['downloads'] >= downloads else downloads  # 几个源文件可能下载次数不同，取最多次的
         elif material['postfix'] in app.config['UI_SOURCE_PREVIEW_POSTFIX_LIST']:
             material['flag'] = 'preview_img'
-            if material['main_img_flag']:
-                views = material['views']
+        # 浏览量 下载量（几个源文件可能下载次数不同，取最多次的）
+    downloads = max([material['downloads'] for material in material_list])
+    views = max([material['views'] for material in material_list])
 
     return render_template('detail.html', material_list=material_list, downloads=downloads, views=views)
 
@@ -196,12 +196,15 @@ def download_single(id):
     cursor = connection.cursor()
     try:
         # 取一个作品下一个文件的url
-        sql_params = tuple((id,))
+        sql_params = tuple((int(id),))
         sql = """select key from material where id=?"""
         cursor.execute(sql, sql_params)
         key = cursor.fetchone()      # {'col':'value'}
-        # 一个作品下一个文件的下载量加1
-        sql2 = 'update material set downloads=downloads+1 where id=?'
+        # 一个作品下一个文件的下载量加1。下载数据写到预览图那一行首页会取出，预览图那行作为一个作品的元数据，设计有问题先这么处理。
+        sql2 = """
+            update material set downloads=downloads+1 
+                where folder=(select folder from material where id=?) and main_img_flag=1
+        """
         cursor.execute(sql2, sql_params)
         connection.commit()
     except Exception as sql_error:

@@ -40,6 +40,7 @@
                             <div class=" blog-overlay" >
                                <div style="padding: 20px 40px 6px 40px;">
                                    <div class="blog-date title">{{ material['folder'] }}</div>
+                                   {# 页面会缓存需要刷新下 #}
                                    <p class="blog-excerpt">{{ material.views }} views | {{ material.downloads }} downloads </p>
                                </div>
                             <a href="{{ url_for('detail', folder=material['folder'] )}}">
