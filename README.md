@@ -46,5 +46,10 @@ Flask框架、前端Jinja模版语法渲染、Bootstrap CSS框架，是那个时
 {catalog}/{作品名}/源文件1.psd  
 
 
+## Run locally
+docker build -t ui_material:latest .
+docker run --name ui_material -p 5000:5000 -d ui_material 
+
+
 ## License
 UI files collected from Web, delete if infringement.

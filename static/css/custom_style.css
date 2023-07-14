@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------------
-本地样式，重要
+除瀑布流部分，从一个博客主题改的
   1.  BASE
   2.  HEADER
       2a. Logo
@@ -175,7 +175,7 @@ img {
 
 .header-wrap.no-transparent {
     background-color: #111111;
-    margin-bottom: 100px;
+    /*margin-bottom: 100px;*/
 }
 .background-header {
     position: relative;
@@ -1086,7 +1086,7 @@ h3.blog-title {
     color: #282828;
 }
 #blog-block {
-    margin-top: 100px;
+    margin-top: 40px;
 }
 .blog-wrap {
     overflow: hidden;

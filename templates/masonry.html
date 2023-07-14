@@ -24,9 +24,9 @@
             <section class="blog-home clearfix">
 
                 <div class="container">
-                    <p class="subtitle wow fadeIn">
-                        {{ subtitle }}
-                    </p>
+{#                    <p class="subtitle wow fadeIn">#}
+{#                        {{ subtitle }}#}
+{#                    </p>#}
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages %}<strong class="has-error 取数据错误或空集">{{ message }}</strong>{% endfor %}
